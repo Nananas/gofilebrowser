@@ -1,0 +1,18 @@
+variables:
+
+blocks:
+  default:
+    cmd: go build github.com/nananas/gofilebrowser 
+    post: 
+      - run
+      - server
+
+  run:
+    cmd: ./gofilebrowser -d
+
+  server:
+    cmd: cd test && go build server.go && ./server
+
+  test:
+    cmd:
+      - sleep 3 && touch test/tick

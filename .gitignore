@@ -1,0 +1,4 @@
+*.sublime-*
+*.log
+gofilebrowser
+test/server
