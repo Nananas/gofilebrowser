@@ -143,7 +143,10 @@ a:hover > .stats{
 	display:block;
 }
 
-
+.icon > p {
+	max-width: 200px;
+    word-wrap: break-word;
+}
 
 .icon-doc-text:before {
 
