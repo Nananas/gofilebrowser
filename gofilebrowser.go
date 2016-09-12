@@ -33,6 +33,14 @@ func main() {
 		log.SetOutput(f)
 	}
 
+	// fix relative paths of excludes
+	//
+	for _, l := range CONFIG.Locations {
+		for i, e := range l.Excludes {
+			l.Excludes[i] = filepath.Join(l.Watch, e)
+		}
+	}
+
 	for _, l := range CONFIG.Locations {
 		startAtLocation(l)
 	}
@@ -58,6 +66,20 @@ func startAtLocation(l *YLocation) {
 		log.Fatal(err)
 	}
 
+	for _, e := range l.Excludes {
+		a1, _ := filepath.Abs(l.Watch)
+		a2 := e
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if a1 == a2 {
+			log.Println("same")
+			return
+		}
+	}
+
+	log.Println("Adding\n\t" + l.Watch + "\nto the watcher")
 	err = watcher.Add(l.Watch)
 	if err != nil {
 		fmt.Println("Could not start watcher for " + l.Watch)
@@ -74,15 +96,18 @@ func startAtLocation(l *YLocation) {
 
 		for _, i := range infos {
 			if i.IsDir() {
+				// check if in excludes
+				//
 				ch := make(chan bool)
 				l.Children[i.Name()] = ch
 
-				fmt.Println("Recursive: " + filepath.Join(l.Watch, i.Name()))
+				// fmt.Println("Recursive: " + filepath.Join(l.Watch, i.Name()))
 
 				sl := &YLocation{
 					Recursive:   l.Recursive,
 					Watch:       filepath.Join(l.Watch, i.Name()),
 					Title:       l.Title,
+					Excludes:    l.Excludes,
 					Stopchannel: ch,
 				}
 

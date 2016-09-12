@@ -5,13 +5,12 @@ blocks:
     cmd: go build github.com/nananas/gofilebrowser 
     post: 
       - run
-      - server
 
   run:
-    cmd: ./gofilebrowser -d
-
-  server:
-    cmd: cd test && go build server.go && ./server
+    cmd: 
+      - ./gofilebrowser -d
+      - cd test && go build server.go && ./server
+    parallel: yes
 
   test:
     cmd:

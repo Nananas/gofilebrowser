@@ -12,12 +12,14 @@ import (
 type YConfig struct {
 	Static    *YStatic
 	Locations map[string]*YLocation
+	Port      int "yaml:,omitempty"
 }
 
 type YLocation struct {
 	Watch     string
-	Recursive bool   "yaml:,omitempty"
-	Title     string "yaml:,omitempty"
+	Recursive bool     "yaml:,omitempty"
+	Title     string   "yaml:,omitempty"
+	Excludes  []string "yaml:,omitempty"
 
 	Children    map[string]chan bool "yaml:-"
 	Stopchannel chan bool            "yaml:-"
@@ -43,5 +45,4 @@ func LoadConfig() *YConfig {
 	}
 
 	return &yamlconfig
-
 }
