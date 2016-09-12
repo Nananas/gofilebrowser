@@ -1,4 +1,5 @@
 variables:
+  version: echo v0.2
 
 blocks:
   default:
@@ -15,3 +16,17 @@ blocks:
   test:
     cmd:
       - sleep 3 && touch test/tick
+
+  package:
+    cmd:
+      - mkdir -p ./package/static
+      - cp './gofilebrowser' ./package
+      - cp -r ./static/ ./package/static/
+      - cp LICENSE README.md ./package
+
+      - cd package && tar -cvf ../gofilebrowser_{version}_linux_amd64.tar.gz *
+  clean:
+    cmd:
+      - rm -r ./package
+      - rm ./gofilebrowser_*_linux_amd64.tar.gz
+ 

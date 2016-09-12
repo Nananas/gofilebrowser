@@ -49,6 +49,17 @@ func main() {
 }
 
 func startAtLocation(l *YLocation) {
+
+	for _, e := range l.Excludes {
+		a1, _ := filepath.Abs(l.Watch)
+		a2 := e
+
+		if a1 == a2 {
+			log.Println("same")
+			return
+		}
+	}
+
 	l.Children = make(map[string]chan bool)
 
 	data, err := l.ReadToData(CONFIG)
@@ -64,19 +75,6 @@ func startAtLocation(l *YLocation) {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	for _, e := range l.Excludes {
-		a1, _ := filepath.Abs(l.Watch)
-		a2 := e
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		if a1 == a2 {
-			log.Println("same")
-			return
-		}
 	}
 
 	log.Println("Adding\n\t" + l.Watch + "\nto the watcher")
