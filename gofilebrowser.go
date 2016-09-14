@@ -8,9 +8,8 @@ import (
 	"path/filepath"
 	"sync"
 
-	. "github.com/nananas/gofilebrowser/filebrowser"
-
 	"github.com/fsnotify/fsnotify"
+	. "github.com/nananas/gofilebrowser/filebrowser"
 )
 
 var CONFIG *YConfig
@@ -19,6 +18,7 @@ var WG sync.WaitGroup
 func main() {
 	CONFIG = LoadConfig()
 
+	// TODO: fix logfile path
 	f, err := os.OpenFile("logfile.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Println(err)

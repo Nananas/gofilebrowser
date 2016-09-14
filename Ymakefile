@@ -21,7 +21,7 @@ blocks:
     cmd:
       - mkdir -p ./package/static
       - cp './gofilebrowser' ./package
-      - cp -r ./static/ ./package/static/
+      - cp -r ./static/* ./package/static/
       - cp LICENSE README.md ./package
 
       - cd package && tar -cvf ../gofilebrowser_{version}_linux_amd64.tar.gz *

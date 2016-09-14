@@ -3,3 +3,5 @@
 gofilebrowser
 test/server
 *.tar.gz
+
+package/
